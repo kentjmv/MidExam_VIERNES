@@ -1,0 +1,25 @@
+---
+# tasks file for roles/influxdbcentos
+
+- name: Copying Repo file to Remote Repo (CentOS)
+  copy:
+    src: "{{ influxdb_repo }}"
+    dest: /etc/yum.repos.d/influxdb.repo
+    owner: "isaacsapelino-tip"
+    group: "isaacsapelino-tip"
+
+- name: Dnf Makecache (CentOS)
+  shell: "dnf makecache"
+  register: dnf_makecache
+
+- name: Install influxdb (CentOS)
+  dnf:
+    name: influxdb
+    state: latest
+    update_cache: yes
+
+- name: Start and enable influxdb (CentOS)
+  service:
+    name: influxdb
+    state: started
+    enabled: yes

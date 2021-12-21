@@ -1,0 +1,8 @@
+---
+# tasks file for roles/Logubuntu
+
+- name: Start and Enable Logstash (Ubuntu)
+  service:
+    name: logstash
+    state: started
+    enabled: yes
