@@ -38,7 +38,7 @@
         name: Elasubuntu
       when: ansible_facts['distribution'] == 'Ubuntu'
       
-- name: Hands on activity 4
+- name: elasticsearch
   hosts: elasticsearch
   tags: elasticsearch,centos
   tasks:
