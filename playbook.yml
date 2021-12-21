@@ -9,7 +9,7 @@
     - name: Install Elasticsearch dependencies (Java) (Ubuntu)
       tags: es_dependencies_ubuntu
       include_role:
-        name: instalLpkgubuntu
+        name: installpkgubuntu
       vars:
         package: default-jre
       when: ansible_facts['distribution'] == 'Ubuntu'
@@ -286,6 +286,7 @@
       when: ansible_facts['distribution'] == 'CentOS'
 
 - name: Install and Configure Prometheus
+  hosts: prom,ubuntu,centos
   tags: prom,ubuntu,centos
   tasks:
     - name: Include global variables
