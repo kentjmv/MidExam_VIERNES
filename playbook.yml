@@ -1,116 +1,103 @@
-- name: MidExam_VIERNES
+- name: midterm exam
   hosts: elasticsearch
-  tags: elasticsearch,ubuntu,centos
+  tags: elasticsearch,ubuntu
   tasks:
-    - name: Including global variables 
+    - name: Include variables
       include_vars:
         file: config.yml
 
-    - name: Install Elasticsearch dependencies (Java) (Ubuntu)
-      tags: es_dependencies_ubuntu
+    - name: Install Elasticsearch dependency (ubuntu)
       include_role:
         name: installpkgubuntu
       vars:
-        package: default-jre
+        package: openjdk-8-jdk
       when: ansible_facts['distribution'] == 'Ubuntu'
 
-    - name: Install Elasticsearch (Nginx) (Ubuntu)
+    - name: Install Nginx (ubuntu)
       include_role:
         name: installpkgubuntu
       vars:
         package: nginx
       when: ansible_facts['distribution'] == 'Ubuntu'
 
-    - name: Install and Configure Elasticsearch (Ubuntu)
+    - name: Stopping Apache2 (ubuntu)
+      service:
+        name: apache2
+        state: stopped
+      when: ansible_facts['distribution'] == 'Ubuntu'
+
+    - name: Install apt-transport-https
+      include_role:
+        name: installpkgubuntu
+      vars:
+        package: apt-transport-https
+      when: ansible_facts['distribution'] == 'Ubuntu'
+
+    - name: Configure Elasticsearch (Ubuntu)
       include_role:
         name: Elasubuntu
       when: ansible_facts['distribution'] == 'Ubuntu'
+      
+- name: Hands on activity 4
+  hosts: elasticsearch
+  tags: elasticsearch,centos
+  tasks:
+    - name: Include variables
+      include_vars:
+        file: config.yml
 
-    - name: Install Elasticsearch dependencies (Java) (CentOS)
-      tags: es_dependencies_centos
+    - name: Install Java [Elastic search dependency] (CentOS)
       include_role:
         name: installpkgcentos
       vars:
         package: java-1.8.0-openjdk
       when: ansible_facts['distribution'] == 'CentOS'
 
-    - name: Install Elasticsearch dependencies (Nginx) (CentOS)
-      include_role:
-        name: installpkgcentos
-      vars:
-        package: nginx
-      when: ansible_facts['distribution'] == 'CentOS'
-
-    - name: Install and Configure Elastic Search (CentOS)
+    - name: Configuring Elastic Search (CentOS)
       include_role:
         name: Elascentos
       when: ansible_facts['distribution'] == 'CentOS'
 
-    - name: Stopping UFW in Ubuntu
-      include_role:
-        name: stopufw
-      when: ansible_facts['distribution'] == 'Ubuntu'
-
-    - name: Stopping Firewalld in CentOS
-      include_role:
-        name: stopfirewalld
-      when: ansible_facts['distribution'] == 'CentOS'
-
-- name: Install and Configure Kibana for Both Targeted Machines
+- name: Install and Configure Kibana
   hosts: kibana
-  tags: kibana,ubuntu,centos
+  tags: kibana,ubuntu
   tasks:
-    - name: Including global variable
+    - name: Include vars
       include_vars:
         file: config.yml
 
-    - name: Install kibana dependencies (Java) (Ubuntu)
+    - name: Install Kibana (Ubuntu)
       include_role:
         name: installpkgubuntu
       vars:
-        package: default-jre
+        package: kibana
       when: ansible_facts['distribution'] == 'Ubuntu'
 
-    - name: Install kibana dependencies (Nginx) (Ubuntu)
-      include_role:
-        name: installpkgubuntu
-      vars:
-        package: nginx
-      when: ansible_facts['distribution'] == 'Ubuntu'
-
-    - name: Install and Configure Kibana (Ubuntu)
+    - name: Configure Kibana (Ubuntu)
       include_role:
         name: Kiubuntu
       when: ansible_facts['distribution'] == 'Ubuntu'
+      
+- name: Install and Configure Kibana
+  hosts: kibana
+  tags: kibana,centos
+  tasks:
+    - name: Include vars
+      include_vars:
+        file: config.yml
 
-    - name: Install kibana dependencies (Java) (CentOS)
+    - name: Install Kibana (CentOS)
       include_role:
         name: installpkgcentos
       vars:
-        package: java-1.8.0-openjdk
+        package: kibana
       when: ansible_facts['distribution'] == 'CentOS'
 
-    - name: Install kibana dependencies (Nginx) (CentOS)
-      include_role:
-        name: installpkgcentos
-      vars:
-        package: nginx
-      when: ansible_facts['distribution'] == 'CentOS'
-
-    - name: Install and Configure Kibana (CentOS)
+    - name: Configure Kibana (CentOS)
       include_role:
         name: Kicentos
       when: ansible_facts['distribution'] == 'CentOS'
 
-    - name: Stopping UFW (ubuntu)
-      include_role:
-        name: stopufw
-      when: ansible_facts['distribution'] == 'Ubuntu'
-
-    - name: Stopping Firewalld (CentOS)
-      include_role:
-        name: stopfirewalld
-      when: ansible_facts['distribution'] == 'CentOS'
 
 - name: Install and Configure Logstash
   hosts: logstash
@@ -140,51 +127,16 @@
       include_vars:
         file: config.yml
 
+    - name: Install logstash (CentOS)
+      include_role:
+        name: installpkgcentos
+      vars:
+        package: logstash
+      when: ansible_facts['distribution'] == 'CentOS'
+
     - name: Configure logstash (CentOS)
       include_role:
         name: Logcentos
-      when: ansible_facts['distribution'] == 'CentOS'
-
-    - name: Install logstash dependencies (Java) (Ubuntu)
-      include_role:
-        name: installpkgubuntu
-      vars:
-        package: default-jre
-      when: ansible_facts['distribution'] == 'Ubuntu'
-
-    - name: Install logstash dependencies (Nginx) (Ubuntu)
-      include_role:
-        name: installpkgubuntu
-      vars:
-        package: nginx
-      when: ansible_facts['distribution'] == 'Ubuntu'
-
-    - name: Installing logstash dependencies (Java) CentOS
-      include_role:
-        name: installpkgcentos
-      vars:
-        package: java-1.8.0-openjdk
-      when: ansible_facts['distribution'] == 'CentOS'
-
-    - name: Installing logstash dependencies (Nginx) CentOS
-      include_role:
-        name: installpkgcentos
-      vars:
-        package: nginx
-      when: ansible_facts['distribution'] == 'CentOS'
-
-    - name: Configuring Logstash
-      include_role:
-        name: Logubuntu
-
-    - name: Stopping UFW (Ubuntu)
-      include_role:
-        name: stopufw
-      when: ansible_facts['distribution'] == 'Ubuntu'
-
-    - name: Stopping firewalld (CentOS)
-      include_role:
-        name: stopfirewalld
       when: ansible_facts['distribution'] == 'CentOS'
 
 - name: Install and Configure Nagios in Ubuntu Host
@@ -193,7 +145,7 @@
   tasks:
     - name: Include global variable
       include_vars:
-        file: config.yml
+        file: config.yaml
     
     - name: Stop Nginx
       service:
@@ -243,7 +195,7 @@
   tasks:
     - name: Include global variables
       include_vars:
-        file: config.yml
+        file: config.yaml
 
     - name: Disabling Apache2
       service:
@@ -282,7 +234,7 @@
   tasks:
     - name: Include global variables
       include_vars:
-        file: config.yml
+        file: config.yaml
 
     - name: Install and Configure InfluxDB (Ubuntu)
       include_role:
@@ -309,7 +261,7 @@
   tasks:
     - name: Include global variables
       include_vars:
-        file: config.yml
+        file: config.yaml
 
     - name: Disabling Apache2
       service:
@@ -352,9 +304,9 @@
   hosts: webserver
   tags: httpd,apache2,ubuntu,centos
   tasks:
-    - name: Include config.yml variables
+    - name: Include config.yaml variables
       include_vars:
-        file: config.yml
+        file: config.yaml
 
     - name: Install Apache in Ubuntu
       include_role:
@@ -394,7 +346,7 @@
   tasks:
     - name: Include global variables
       include_vars:
-        file: config.yml
+        file: config.yaml
 
     - name: Install Mariadb (Ubuntu)
       include_role:
