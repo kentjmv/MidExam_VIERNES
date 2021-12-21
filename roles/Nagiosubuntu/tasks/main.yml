@@ -90,19 +90,6 @@
     name: passlib
     state: present
 
-- name: Create admin username and password for authentication
-  htpasswd:
-    path: /usr/local/nagios/etc/htpasswd.users
-    name: "{{ nagios_user }}"
-    password: "{{ nagios_password }}"
-  register: useradded
-
-- name: Restart apache2
-  service:
-    name: apache2
-    state: restarted
-  when: install_webconf.changed or useradded.changed
-
 - name: Start and enable nagios
   service:
     name: nagios
