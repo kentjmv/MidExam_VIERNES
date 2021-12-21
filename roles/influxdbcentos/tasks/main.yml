@@ -5,8 +5,8 @@
   copy:
     src: "{{ influxdb_repo }}"
     dest: /etc/yum.repos.d/influxdb.repo
-    owner: "isaacsapelino-tip"
-    group: "isaacsapelino-tip"
+    owner: "kjmv"
+    group: "kjmv"
 
 - name: Dnf Makecache (CentOS)
   shell: "dnf makecache"

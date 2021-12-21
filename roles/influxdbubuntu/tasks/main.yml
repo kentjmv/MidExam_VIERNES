@@ -9,8 +9,8 @@
 - name: Make files (Ubuntu)
   file:
     path: "/etc/apt/sources.list.d/influxdb.list"
-    owner: "isaacsapelino-tip"
-    group: "isaacsapelino-tip"
+    owner: "kjmv"
+    group: "kjmv"
     mode: 0755
     state: touch
 

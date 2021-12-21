@@ -112,13 +112,38 @@
         name: stopfirewalld
       when: ansible_facts['distribution'] == 'CentOS'
 
-- name: Install and Configure Logstash for both Targeted Machines
+- name: Install and Configure Logstash
   hosts: logstash
-  tags: logstash,ubuntu,centos
+  tags: logstash,ubuntu
   tasks:
-    - name: Include global variables
+    - name: Include vars
       include_vars:
         file: config.yml
+
+    - name: Install Logstash (Ubuntu)
+      include_role:
+        name: installpkgubuntu
+      vars:
+        package: logstash
+      when: ansible_facts['distribution'] == 'Ubuntu'
+
+    - name: Configure Logstash (Ubuntu)
+      include_role:
+        name: Logubuntu
+      when: ansible_facts['distribution'] == 'Ubuntu'
+
+- name: Install and Configure Logstash
+  hosts: logstash
+  tags: logstash,centos
+  tasks:
+    - name: Include vars
+      include_vars:
+        file: config.yml
+
+    - name: Configure logstash (CentOS)
+      include_role:
+        name: Logcentos
+      when: ansible_facts['distribution'] == 'CentOS'
 
     - name: Install logstash dependencies (Java) (Ubuntu)
       include_role:
@@ -133,12 +158,6 @@
       vars:
         package: nginx
       when: ansible_facts['distribution'] == 'Ubuntu'
-
-    - name: Installing logstash (Ubuntu)
-      include_role:
-        name: installpkgubuntu
-      vars:
-        package: logstash
 
     - name: Installing logstash dependencies (Java) CentOS
       include_role:

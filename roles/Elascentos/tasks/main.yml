@@ -22,7 +22,7 @@
   lineinfile:
     path: /etc/elasticsearch/elasticsearch.yml
     regexp: "^#network.host.*"
-    line: "network.host: 192.168.122.127"
+    line: "network.host: 192.168.122.117"
 
 - name: Configure Elasticsearch (CentOS)
   lineinfile:
@@ -33,9 +33,5 @@
 - name: Start and Enable Elasticsearch (CentOS)
   service:
     name: elasticsearch
-    state: started
-    enabled: yes
-
-- name: Reboot CentOS
-  reboot:
-    reboot_timeout: 1
+    state: stopped
+    enabled: false
