@@ -4,7 +4,7 @@
   tasks:
     - name: Including global variables 
       include_vars:
-        file: config.yaml
+        file: config.yml
 
     - name: Install Elasticsearch dependencies (Java) (Ubuntu)
       tags: es_dependencies_ubuntu
@@ -62,7 +62,7 @@
   tasks:
     - name: Including global variable
       include_vars:
-        file: config.yaml
+        file: config.yml
 
     - name: Install kibana dependencies (Java) (Ubuntu)
       include_role:
@@ -118,7 +118,7 @@
   tasks:
     - name: Include global variables
       include_vars:
-        file: config.yaml
+        file: config.yml
 
     - name: Install logstash dependencies (Java) (Ubuntu)
       include_role:
@@ -174,7 +174,7 @@
   tasks:
     - name: Include global variable
       include_vars:
-        file: config.yaml
+        file: config.yml
     
     - name: Stop Nginx
       service:
@@ -224,7 +224,7 @@
   tasks:
     - name: Include global variables
       include_vars:
-        file: config.yaml
+        file: config.yml
 
     - name: Disabling Apache2
       service:
@@ -263,7 +263,7 @@
   tasks:
     - name: Include global variables
       include_vars:
-        file: config.yaml
+        file: config.yml
 
     - name: Install and Configure InfluxDB (Ubuntu)
       include_role:
@@ -290,7 +290,7 @@
   tasks:
     - name: Include global variables
       include_vars:
-        file: config.yaml
+        file: config.yml
 
     - name: Disabling Apache2
       service:
@@ -333,9 +333,9 @@
   hosts: webserver
   tags: httpd,apache2,ubuntu,centos
   tasks:
-    - name: Include config.yaml variables
+    - name: Include config.yml variables
       include_vars:
-        file: config.yaml
+        file: config.yml
 
     - name: Install Apache in Ubuntu
       include_role:
@@ -375,7 +375,7 @@
   tasks:
     - name: Include global variables
       include_vars:
-        file: config.yaml
+        file: config.yml
 
     - name: Install Mariadb (Ubuntu)
       include_role:
