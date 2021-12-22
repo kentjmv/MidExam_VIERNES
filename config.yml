@@ -25,5 +25,5 @@ domain: kjmv
 owner: kjmv
 group: kjmv
 index_html: index.html
-ubuntu_src: kjmvubuntu.conf
-centos_src: kjmvcentos.conf
+ubuntu_src: kentjmvubuntu.conf
+centos_src: kentjmvcentos.conf
