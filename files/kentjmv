@@ -1,7 +1,7 @@
 server {
     listen 80;
 
-    server_name kentjmv;
+    server_name kjmv;
 
     auth_basic "Restricted Access";
     auth_basic_user_file /etc/nginx/htpasswd.users;
